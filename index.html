@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.9.3/jquery.jspanel.css"/>
+	<link rel="stylesheet" href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/donut.css">
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.9.3/jquery.jspanel-compiled.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<script src="js/tooltip.js"></script>
+	<script src="js/new_readfiles.js"></script>
+	<script src="js/new_main.js"></script>
+	<script src="js/new_pack.js"></script>
+	<script src="js/donutChart.js"></script>
+	<script src="js/new_panels.js"></script>
+	<script src="js/new_barChart.js"></script>
+	<script src="js/new_scatter_plot.js"></script>
+	<script src="js/tree.js"></script>
+	<script src="js/pie.js"></script>
+	<script src="js/jscolor.js"></script>
+	<script src="js/pca.js"></script>
+	<script src="js/numeric-1.2.6.js"></script>
+
+
+
+
+	<style type="text/css">
+		.node--hover circle {
+  		stroke: #000;
+  		  		stroke-width:5px;
+
+}
+/*		.node--click circle {
+  		stroke: #000;
+  		stroke-width:5px;
+}*/
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 60px;					
+    height: 28px;					
+}
+#packFontSlider-handle {
+  width: 3em;
+  height: 1.6em;
+  top: 50%;
+  margin-top: -.8em;
+  text-align: center;
+  line-height: 1.6em;
+}
+	</style>
+
+
+
+	<title>	</title>
+</head>
+<body>
+	<div class="container">	
+		<div class="row row-centered">
+			<div class="col-lg col-lg-offset-4">
+				<div class="row" id="inputRow">
+				<!-- 	<button type="button" class="btn btn-primary btn-lg" id="uploadBtn"><span class="glyphicon glyphicon-upload"></span> Upload sample cv's</button> -->
+				<label class="control-label">Upload samples</label>
+				<input type="file" name="" id="input-files">
+				</div>
+				<div class="row" id="output-field"  style=" z-index: -2">
+						
+				</div>
+				<div id="pie-chart-extension-navbar" ></div>
+
+				<div class="row" id="svgField"></div>
+				<div class="tooltip" id="tooltip"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="myModal" role="dialog">
+	  <div class="modal-dialog modal-lg" id="modalSize">
+	  
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Modal Header</h4>
+	      </div>
+	      <div class="modal-body" id="modalBody">
+	        <p>Some text in the modal.</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	    
+	  </div>
+	</div>
+
+</body>
+</html>
