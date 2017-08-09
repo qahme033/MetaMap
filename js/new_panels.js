@@ -1,4 +1,7 @@
-
+var packPanel;
+var barChartPanel;
+var treeChartPanel;
+var mainPlotPanel;
 
 function makePackPanels(){
 	var fontSliderHTML ='<label>FONT size</label><div id="packFontSlider"><div id="packFontSlider-handle" class="ui-slider-handle"></div></div>'
@@ -12,7 +15,7 @@ function makePackPanels(){
 	    position:    {my: "right-top", at: "right-top", offsetY: 400},
 	  //  theme:       "rebeccapurple",
 	    contentSize: {width: 300, height: 350},
-	    headerTitle: "Pack Settings",
+	    headerTitle: " Settings",
 	    content:     '<p id="bakColor">Backteria </p><p id="eukColor">Eukaryotes ...</p><p id="arcColor">Archaea ...</p>' + fontSliderHTML + paddingSliderHTML + depthSliderHTML + opacitySliderHTML +strokeSliderHTML,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
@@ -143,7 +146,7 @@ function makeBarChartPanels(){
 	    position:    {my: "right-top", at: "right-top", offsetY: 400},
 	  //  theme:       "rebeccapurple",
 	    contentSize: {width: 300, height: 350},
-	    headerTitle: "Pack Settings",
+	    headerTitle: "Bar Chart Settings",
 	    content:     fontSliderHTML ,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
@@ -182,17 +185,17 @@ function makeTreeChartPanels(rdata){
 	var treeScaleSliderHTML ='<label>FONT size</label><div id="treeScaleSlider"><div id="treeScaleSlider-handle" class="ui-slider-handle"></div></div>'
 	var treeScaleOption1 = '<div class="radio"><label><input type="radio" id="linearOption" name="optradio">Linear</label></div>'
 	var treeScaleOption2 = '<div class="radio"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
-	var treeScaleOption3 = '<div class="radio"><label><input type="radio" id="sqrtOption" name="optradio">Sqrt</label></div>'
+	var treeScaleOption3 = '<div class="radio"><label><input type="radio" id="sqrtOption" name="optradio">Sqrt</label></div><input id="treePowerScale" value="0.5"></input>'
 	var treeScaleOptions = treeScaleOption1 + treeScaleOption2 + treeScaleOption3;
 
 
 
 
-	barChartPanel = $.jsPanel({
+	treeChartPanel = $.jsPanel({
 	    position:    {my: "right-top", at: "right-top", offsetY: 400},
 	  //  theme:       "rebeccapurple",
 	    contentSize: {width: 300, height: 350},
-	    headerTitle: "Pack Settings",
+	    headerTitle: "Tree Settings",
 	    content:     treeScaleSliderHTML + treeScaleOptions,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
@@ -212,15 +215,27 @@ function makeTreeChartPanels(rdata){
 		                scaleFac = ui.value;
 		                updateTreeLink()
 						//$(".node").css("stroke-width",strokeWidthPack)
-		              //  console.log(x_axis? x_axis.style("font-size"))
+		                //console.log(x_axis? x_axis.style("font-size"))
 			        	//x_axis.style("font-size", function(d){return barChartFont})
 	            	}
 	            });
 
+            $("#treePowerScale").on("change", function(e){
+            	console.log("POWER")
+
+            	tPower = e.target.value
+            	 if(treeScaleType == "sqrtOption")
+            	 	updateTreeLink()
+
+
+            	//updateMainPlot()
+
+            })
+
 	        $(".radio").on("change", function(e){
 	        	console.log(e)
 
-	        	scaleType = e.target.id
+	        	treeScaleType = e.target.id
 	        	updateTreeLink()
 
 	        })
@@ -231,4 +246,81 @@ function makeTreeChartPanels(rdata){
 
 	thirdLevelPanel = barChartPanel
 
+}
+
+
+function mainPlotPanels(){
+	console.log("YOO")
+	var treeScaleSliderHTML ='<label>FONT size</label><div id="treeScaleSlider"><div id="treeScaleSlider-handle" class="ui-slider-handle"></div></div>'
+	var treeScaleOption1 = '<div class="radio"><label><input type="radio" id="linearOption" name="optradio">Linear</label></div>'
+	var treeScaleOption2 = '<div class="radio"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
+	var treeScaleOption3 = '<div class="radio"><label><input type="radio" id="sqrtOption" name="optradio">Power...  </label></div><input id="powerScale" value="0.5"></input>'
+	var treeScaleOptions = treeScaleOption1 + treeScaleOption2 + treeScaleOption3;
+
+
+
+
+	mainPlotPanel = $.jsPanel({
+	    position:    {my: "right-top", at: "right-top", offsetY: 400},
+	  //  theme:       "rebeccapurple",
+	    contentSize: {width: 300, height: 350},
+	    headerTitle: "Scatter Settings",
+	    content:     treeScaleSliderHTML + treeScaleOptions,
+	    callback:    function () {
+	        this.content.css("padding", "15px");
+
+	       
+
+	        var handle1 = $( "#treeScaleSlider-handle" );
+	            $( "#treeScaleSlider" ).slider({
+	            	value:100,
+	            	min:1,
+	            	max:10000,
+	              create: function() {
+	                	handle1.text( $( this ).slider( "value" ) );
+	              },
+	              slide: function( event, ui ) {
+		                handle1.text( ui.value );
+		                scaleFac = ui.value;
+		              //  updateTreeLink()
+						//$(".node").css("stroke-width",strokeWidthPack)
+		              //  console.log(x_axis? x_axis.style("font-size"))
+			        	//x_axis.style("font-size", function(d){return barChartFont})
+	            	}
+	            });
+
+
+	        $("#powerScale").on("change", function(e){
+	        	console.log("POWER")
+
+	        	mpPower = e.target.value
+	        	 if(mainPlotScaleType == "sqrtOption")
+	        	 	updateMainPlot()
+
+
+	        	//updateMainPlot()
+
+	        })
+
+	        $(".radio").on("change", function(e){
+	        	console.log(e)
+
+	        	mainPlotScaleType = e.target.id
+
+	        	updateMainPlot()
+
+	        })
+	        
+
+	    
+	    }
+	});
+
+}
+
+function closePanels(){
+	if(packPanel) packPanel.close();
+	if(barChartPanel) barChartPanel.close();
+	if(treeChartPanel) treeChartPanel.close();
+	if(mainPlotPanel) mainPlotPanel.close();
 }

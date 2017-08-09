@@ -1,6 +1,16 @@
 var maxR;
-function plot(coordinates, mainDiv, rawData){
-	//console.log(coordinates)
+var svgMainPlot;
+var mainPlotScaleType ="linear"
+var mainPlotCircles;
+var mainPlotNode;
+var mpPower = 0.5;
+
+const pointRadius = 20;
+
+
+function plot(){
+	console.log(coordinates)
+	console.log(rawData)
 	var x = []
 	var y = []
 	for(var i = 0; i < coordinates.length; i++){
@@ -8,7 +18,7 @@ function plot(coordinates, mainDiv, rawData){
 		y[i] = coordinates[i].y
 	}
 
-	// outer svg dimensions
+	// outer svgMainPlot dimensions
 	const width = window.innerWidth;
 	const height =  window.innerHeight;
 
@@ -27,15 +37,15 @@ function plot(coordinates, mainDiv, rawData){
 	// radius of points in the scatterplot
 	const pointRadius = 20;
 
-	const xScale = d3.scaleLinear().domain([d3.min(x),d3.max(x)]).range([0, plotAreaWidth]);
-	const yScale = d3.scaleLinear().domain([d3.min(y),d3.max(y)]).range([plotAreaHeight, 0]);
+	var xScale = d3.scaleLinear().domain([d3.min(x),d3.max(x)]).range([0, plotAreaWidth]);
+	var yScale = d3.scaleLinear().domain([d3.min(y),d3.max(y)]).range([plotAreaHeight, 0]);
 	const colorScale = d3.scaleLinear().domain([0, 1]).range(['#06a', '#0bb']);
 
 	// select the root container where the chart will be added
-	const container = d3.select(mainDiv);
+	const container = d3.select(svgDiv);
 
-	// initialize main SVG
-	var svg = container.append('svg')
+	// initialize main svgMainPlot
+	svgMainPlot = container.append('svg')
 	  .attr('width', width)
 	  .attr('height', height)
 	  .style("position", "fixed")
@@ -45,24 +55,26 @@ function plot(coordinates, mainDiv, rawData){
 
 
 
-	var ng = svg.append("g").attr("transform", "translate(" + 0 + "," + 0 + ")");
+	var ng = svgMainPlot.append("g").attr("transform", "translate(" + 0 + "," + 0 + ")");
 
 	 maxR = getMaxR(coordinates)
 
 	var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-	var node = svg.select("g").selectAll("g")
+	mainPlotNode = svgMainPlot.select("g").selectAll("g")
 				.data(coordinates)
 				.enter()
 				.append("g")
 				.attr("transform", function(d) { return "translate(" + xScale(d.x) + "," +yScale(d.y)+ ")"; })
-				.on("mouseover", function(d) {hovered(true, node, d)})
-				.on("mouseout", function(d) {hovered(false, node, d)})
-				//.on("click", function(d) {click(true, node, d)})
-				.on("contextmenu", function(d){ tooltipScatter(mainDiv, true,rawData,  d)})
-				//.on("mousemove", function(){tooltipScatter( mainDiv, false, rawData)})
+				.on("mouseover", function(d) {hovered(true, mainPlotNode, d)})
+				.on("mouseout", function(d) {hovered(false, mainPlotNode, d)})
+				//.on("click", function(d) {click(true, mainPlotNode, d)})
+				.on("contextmenu", function(d){ tooltipScatter(svgDiv, true,rawData,  d)})
+				//.on("mousemove", function(){tooltipScatter( svgDiv, false, rawData)})
 
-	var circles = node.append("circle")
+				console.log( svgMainPlot)
+
+	mainPlotCircles = mainPlotNode.append("circle")
 	  .classed('data-point', true)
 	  .style("fill", d => color(d.id))
 	  .attr("r", d => d.r/maxR * pointRadius);
@@ -74,14 +86,14 @@ function plot(coordinates, mainDiv, rawData){
 		.endAngle(3*Math.PI)
 
 
-	  node.append("path")
+	  mainPlotNode.append("path")
 		.attr("fill","red")
 		.attr("id", function(d,i){return "s"+i;})
 		.attr("d",arc)
 
 
 
-	  node.append("text")
+	  mainPlotNode.append("text")
 		.style("text-anchor","middle")
 		.append("textPath")
 		.attr("xlink:href",function(d,i){return "#s"+i;})
@@ -89,23 +101,23 @@ function plot(coordinates, mainDiv, rawData){
 		.attr("startOffset",function(d,i){return "25%";})
 		.text(function(d){ return d.id;})
 
-	  svg.call(d3.zoom().on("zoom", function(){zoomed(ng, node)}));
+	  svgMainPlot.call(d3.zoom().on("zoom", function(){zoomed(ng, mainPlotNode)}));
 
 	  if(localStorage.getItem("transformPlot")){
-	  	var transformPlot = d3.zoomTransform(svg.node());
+	  	var transformPlot = d3.zoomTransform(svgMainPlot.mainPlotNode());
 	  	console.log(transformPlot)
 	  	var transformData = JSON.parse(localStorage.getItem("transformPlot"))
 	  	transformPlot.k = transformData.k
 	  	transformPlot.x = transformData.x
 	  	transformPlot.y = transformData.y
 	  	//ng.attr("transform", transform)
-	  	zoomed(ng, node, transformPlot)
+	  	zoomed(ng, mainPlotNode, transformPlot)
 	  }
 }
 
 
 
-function zoomed(ng, node, transform){
+function zoomed(ng, mainPlotNode, transform){
 	var transformPlot;
 	if(transform)
 		transformPlot = transform 
@@ -115,18 +127,18 @@ function zoomed(ng, node, transform){
 	}
 
 	ng.attr("transform", transformPlot)
-	node.style("stroke-width",function(d){return 1.2/(transformPlot.k)})
+	mainPlotNode.style("stroke-width",function(d){return 1.2/(transformPlot.k)})
 }
 
-function hovered(hover, node, d){
-		node.style("opacity", function(d1){ return hover? ((d1 == d)? 1 : 0.5): 1})
-		.classed("node--hover", function(d1){ return hover? ((d1 == d)? true : false): false})
+function hovered(hover, mainPlotNode, d){
+		mainPlotNode.style("opacity", function(d1){ return hover? ((d1 == d)? 1 : 0.5): 1})
+		.classed("mainPlotNode--hover", function(d1){ return hover? ((d1 == d)? true : false): false})
 }
 
-// function click(click, node, d){
-// 		node.style("opacity", function(d1){  return click? ((d1 == d)? 1 : 0.5): 1})
+// function click(click, mainPlotNode, d){
+// 		mainPlotNode.style("opacity", function(d1){  return click? ((d1 == d)? 1 : 0.5): 1})
 // 		.style("stroke-width", function(d1){ return click? ((d1 == d)? (d1.r/maxR)*3 : 0): (d1.r/maxR)*3})
-// 		.classed("node--click", function(d1){ return click? ((d1 == d)? true : false): false})
+// 		.classed("mainPlotNode--click", function(d1){ return click? ((d1 == d)? true : false): false})
 // }
 
 
@@ -137,4 +149,63 @@ function getMaxR(coordinates){
 			maxR = coordinates[coordinate].r
 	}
 	return maxR
+}
+
+function getMinR(coordinates){
+	var maxR = Number.MAX_VALUE
+	for(var coordinate in coordinates){
+		if(maxR > coordinates[coordinate].r)
+			maxR = coordinates[coordinate].r
+	}
+	return maxR
+}
+
+function updateMainPlot() {
+	console.log(mainPlotScaleType)
+
+	mainPlotNode = svgMainPlot.select("g")
+			.selectAll("g")
+			.data(coordinates);
+
+	mainPlotNode.exit().remove();
+
+	var rScale;
+
+	if(mainPlotScaleType == "linearOption"){
+		rScale = d3.scaleLinear().domain([getMinR(coordinates), getMaxR(coordinates)]).range([0, 50]);
+	}
+	else if(mainPlotScaleType == "logOption"){
+		rScale = d3.scaleLog().domain([getMinR(coordinates), getMaxR(coordinates)]).range([0, 50]);
+	}
+	else if(mainPlotScaleType == "sqrtOption"){
+		console.log(mpPower)
+		rScale = d3.scalePow().exponent(mpPower).domain([getMinR(coordinates), getMaxR(coordinates)]).range([0, 50]);
+		console.log(rScale)
+	}
+
+	mainPlotNode.selectAll("circle").attr("r", function(d) { return rScale(d.r); })
+
+
+
+	  var arc = d3.arc()
+		.innerRadius(function(d,i){return rScale(d.r);})
+		.outerRadius(function(d,i){return rScale(d.r);})
+		.startAngle(Math.PI)
+		.endAngle(3*Math.PI)
+
+
+	  mainPlotNode.selectAll("path")
+		.attr("fill","red")
+		.attr("d",arc)
+
+
+
+	  mainPlotNode.selectAll("text")
+		.style("text-anchor","middle")
+		.selectAll("textPath")
+		.style("font-size",function(d){return  rScale(d.r)/50 * pointRadius})
+
+
+
+
 }

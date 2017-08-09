@@ -108,6 +108,7 @@ function makeBarChart(d, div, type){
 
 
 }
+var rdata;
 function makeTree(data, d, type){
 	$("#goBtn").remove()
 	$("#goBtn").remove()
@@ -119,27 +120,27 @@ function makeTree(data, d, type){
 
 
 	if(type == "treeButton"){
-		var rdata = reduceRoot(data, d)
+		rdata = reduceRoot(data, d)
 		console.log(rdata)
 		tree(rdata, $('#svgField')[0])
 		makeTreeChartPanels(rdata)
 
 	}
 	if(type == "rTreeButton"){
-		var rdata = reduceRoot(data, d)
+		rdata = reduceRoot(data, d)
 		radialTree(rdata, $('#svgField')[0])
 	}
 	if(type == "rPie"){
-		var rdata = reduceRoot(data, d)
+		rdata = reduceRoot(data, d)
 		rotatingPie(rdata, $('#svgField')[0])
 	}
 	if(type == "sPieX"){
-		var rdata = reduceRoot(data, d)
+		rdata = reduceRoot(data, d)
 		var default_connector = "-";
 		staticPieX(rdata, $('#svgField')[0], default_connector)
 	}
 	if(type == "sPieY"){
-		var rdata = reduceRoot(data, d)
+		rdata = reduceRoot(data, d)
 		var default_connector = "-";
 
 		staticPieY(rdata, $('#svgField')[0], default_connector)
@@ -188,10 +189,6 @@ function handlePackListener(e,d, data){
 function sampleDetail(id, rawData){
 	//$('#myModal').modal('show');
 
-
-
-
-
 	while ($("#svgField")[0].firstChild) {
     	$("#svgField")[0].removeChild($("#svgField")[0].firstChild);
 	}
@@ -210,6 +207,7 @@ function sampleDetail(id, rawData){
 
 
 	pack(rawData, $("#svgField")[0], [id], false)
+	closePanels()
 	makePackPanels()
 
 }
@@ -225,6 +223,7 @@ function getBackPack(rawData){
 	$("body").one("click", "#goBtn",function(){getBackMain(rawData)})
 
 	pack(rawData, $("#svgField")[0], JSON.parse(localStorage.getItem("packData")), true)
+	closePanels();
 	//makePackPanels()
 }
 

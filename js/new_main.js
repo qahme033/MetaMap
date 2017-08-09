@@ -9,6 +9,14 @@ var nodePadding = 1;
 var packDepth = 3;
 var opacityPack = 1;
 var strokeWidthPack =5;
+var svgDiv;
+var coordinates;
+
+
+$(document).ready(function(){
+	svgDiv = document.getElementById("svgField");
+
+})
 
 function mainSVG(data, mainDiv){
 
@@ -50,7 +58,7 @@ function mainSVG(data, mainDiv){
 	//force(data, div, similarities)
 	savedRawData = data
 	rawData = data
-	var coordinates = pca(data);
+	coordinates = pca(data);
 
 	if (typeof(Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
@@ -70,8 +78,8 @@ function mainSVG(data, mainDiv){
 
 
 
-
-	plot(coordinates, mainDiv, rawData)
+	plot()
+	mainPlotPanels();
 
 
 }
