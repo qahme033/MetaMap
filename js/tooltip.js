@@ -213,6 +213,7 @@ function sampleDetail(id, rawData){
 }
 
 function getBackPack(rawData){
+	console.log("GET PACKKK BACKK")
 	//thirdLevelPanel.close()
 	while ($("#svgField")[0].firstChild) {
     	$("#svgField")[0].removeChild($("#svgField")[0].firstChild);

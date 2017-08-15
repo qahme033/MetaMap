@@ -4,8 +4,11 @@ var mainPlotScaleType ="linear"
 var mainPlotCircles;
 var mainPlotNode;
 var mpPower = 0.5;
-
+var mpFontSize = 5;
 const pointRadius = 20;
+var rScale;
+
+
 
 
 function plot(){
@@ -39,6 +42,8 @@ function plot(){
 
 	var xScale = d3.scaleLinear().domain([d3.min(x),d3.max(x)]).range([0, plotAreaWidth]);
 	var yScale = d3.scaleLinear().domain([d3.min(y),d3.max(y)]).range([plotAreaHeight, 0]);
+    rScale = d3.scaleLinear().domain([getMinR(coordinates), getMaxR(coordinates)]).range([0, 50]);
+
 	const colorScale = d3.scaleLinear().domain([0, 1]).range(['#06a', '#0bb']);
 
 	// select the root container where the chart will be added
@@ -77,11 +82,11 @@ function plot(){
 	mainPlotCircles = mainPlotNode.append("circle")
 	  .classed('data-point', true)
 	  .style("fill", d => color(d.id))
-	  .attr("r", d => d.r/maxR * pointRadius);
+	  .attr("r", function(d) { return rScale(d.r); });
 
 	  var arc = d3.arc()
-		.innerRadius(function(d,i){return d.r/maxR * pointRadius;})
-		.outerRadius(function(d,i){return d.r/maxR * pointRadius;})
+		.innerRadius(function(d,i){return rScale(d.r);})
+		.outerRadius(function(d,i){return rScale(d.r);})
 		.startAngle(Math.PI)
 		.endAngle(3*Math.PI)
 
@@ -97,7 +102,7 @@ function plot(){
 		.style("text-anchor","middle")
 		.append("textPath")
 		.attr("xlink:href",function(d,i){return "#s"+i;})
-		.style("font-size",function(d){return d.r/maxR * pointRadius/2})
+		.style("font-size",function(d){return mpFontSize * rScale(d.r)/200 * pointRadius})
 		.attr("startOffset",function(d,i){return "25%";})
 		.text(function(d){ return d.id;})
 
@@ -162,14 +167,13 @@ function getMinR(coordinates){
 
 function updateMainPlot() {
 	console.log(mainPlotScaleType)
+	console.log(rScale(0))
 
 	mainPlotNode = svgMainPlot.select("g")
 			.selectAll("g")
 			.data(coordinates);
 
-	mainPlotNode.exit().remove();
 
-	var rScale;
 
 	if(mainPlotScaleType == "linearOption"){
 		rScale = d3.scaleLinear().domain([getMinR(coordinates), getMaxR(coordinates)]).range([0, 50]);
@@ -178,10 +182,9 @@ function updateMainPlot() {
 		rScale = d3.scaleLog().domain([getMinR(coordinates), getMaxR(coordinates)]).range([0, 50]);
 	}
 	else if(mainPlotScaleType == "sqrtOption"){
-		console.log(mpPower)
 		rScale = d3.scalePow().exponent(mpPower).domain([getMinR(coordinates), getMaxR(coordinates)]).range([0, 50]);
-		console.log(rScale)
 	}
+	console.log(rScale(0))
 
 	mainPlotNode.selectAll("circle").attr("r", function(d) { return rScale(d.r); })
 
@@ -203,8 +206,9 @@ function updateMainPlot() {
 	  mainPlotNode.selectAll("text")
 		.style("text-anchor","middle")
 		.selectAll("textPath")
-		.style("font-size",function(d){return  rScale(d.r)/50 * pointRadius})
+		.style("font-size",function(d){return  mpFontSize * rScale(d.r)/200 * pointRadius})
 
+		mainPlotNode.exit().remove();
 
 
 

@@ -7,16 +7,20 @@ function makePackPanels(){
 	var fontSliderHTML ='<label>FONT size</label><div id="packFontSlider"><div id="packFontSlider-handle" class="ui-slider-handle"></div></div>'
 	var paddingSliderHTML = '<label>Node padding</label><div id="nodePadSlider"><div id="nodePadSlider-handle" class="ui-slider-handle"></div></div>'
 	var depthSliderHTML = '<label>Depth</label><div id="depthSlider"><div id="depthSlider-handle" class="ui-slider-handle"></div></div>'
-	var opacitySliderHTML = '<label>Opacity</label><div id="opacitySlider"><div id="depthSlider-handle" class="ui-slider-handle"></div></div>'
+	var opacitySliderHTML = '<label>Opacity</label><div id="packOpacitySlider"><div id="packOpacitySlider-handle" class="ui-slider-handle"></div></div>'
 	var strokeSliderHTML = '<label>Stroke width</label><div id="strokeSlider"><div id="depthSlider-handle" class="ui-slider-handle"></div></div>'
+	var packScaleOption1 = '<div class="radio"><label><input type="radio" checked="true" id="linearOption" name="optradio">Linear</label></div>'
+	var packScaleOption2 = '<div class="radio"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
+	var packScaleOption3 = '<div class="radio"><label><input type="radio" id="sqrtOption" name="optradio">Power...  </label></div><input id="powerScale" value="0.5"></input>'
+	var packScaleOptions = packScaleOption1 + packScaleOption2 + packScaleOption3;
 
 
 	packPanel =	$.jsPanel({
 	    position:    {my: "right-top", at: "right-top", offsetY: 400},
 	  //  theme:       "rebeccapurple",
-	    contentSize: {width: 300, height: 350},
+	    contentSize: {width: 300, height: 500},
 	    headerTitle: " Settings",
-	    content:     '<p id="bakColor">Backteria </p><p id="eukColor">Eukaryotes ...</p><p id="arcColor">Archaea ...</p>' + fontSliderHTML + paddingSliderHTML + depthSliderHTML + opacitySliderHTML +strokeSliderHTML,
+	    content:     '<p id="bakColor">Backteria </p><p id="eukColor">Eukaryotes ...</p><p id="arcColor">Archaea ...</p>' + fontSliderHTML + paddingSliderHTML + depthSliderHTML + opacitySliderHTML +strokeSliderHTML +packScaleOptions,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
 
@@ -77,7 +81,7 @@ function makePackPanels(){
 		                nodePadding = ui.value;
 		               // packThis.padding(nodePadding/100);
 
-		                getBackPack(rawData)	              
+		             //   getBackPack(rawData)	              
 	            	}
 	            });
 
@@ -93,12 +97,12 @@ function makePackPanels(){
 	                  slide: function( event, ui ) {
 		                    handle3.text( ui.value );
 		                    packDepth = ui.value;
-		                    updateDepth(packDepth)             
+		                    updatePack()             
 		                }
 	                });
 
-	            var handle4 = $( "#opacitySlider-handle" );
-	                $( "#opacitySlider" ).slider({
+	            var handle4 = $( "#packOpacitySlider-handle" );
+	                $( "#packOpacitySlider" ).slider({
 	                	value:opacityPack,
 	                	min:0,
 	                	max:15,
@@ -108,8 +112,9 @@ function makePackPanels(){
 	                  },
 	                  slide: function( event, ui ) {
 	                    handle4.text( ui.value/10 );
-	                    opacityPack = ui.value;
-	                    getBackPack(rawData)	              }
+	                 //   opacityPack = ui.value/10;
+	                    updatePack()	              
+	                }
 	                });
 
 	            var handle5 = $( "#strokeSlider-handle" );
@@ -129,6 +134,16 @@ function makePackPanels(){
 		                    //getBackPack(rawData)	             
 	                    }
 	                });
+
+
+	                $(".radio").on("change", function(e){
+	                	console.log(e)
+
+	                	mainPlotScaleType = e.target.id
+
+	                	//updateMainPlot()
+
+	                })
 
 	    }
 	});
@@ -251,8 +266,8 @@ function makeTreeChartPanels(rdata){
 
 function mainPlotPanels(){
 	console.log("YOO")
-	var treeScaleSliderHTML ='<label>FONT size</label><div id="treeScaleSlider"><div id="treeScaleSlider-handle" class="ui-slider-handle"></div></div>'
-	var treeScaleOption1 = '<div class="radio"><label><input type="radio" id="linearOption" name="optradio">Linear</label></div>'
+	var treeScaleSliderHTML ='<label>FONT size</label><div id="mPFontSizeSlider"><div id="mPFontSizeSlider-handle" class="ui-slider-handle"></div></div>'
+	var treeScaleOption1 = '<div class="radio"><label><input type="radio" checked="true" id="linearOption" name="optradio">Linear</label></div>'
 	var treeScaleOption2 = '<div class="radio"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
 	var treeScaleOption3 = '<div class="radio"><label><input type="radio" id="sqrtOption" name="optradio">Power...  </label></div><input id="powerScale" value="0.5"></input>'
 	var treeScaleOptions = treeScaleOption1 + treeScaleOption2 + treeScaleOption3;
@@ -271,18 +286,18 @@ function mainPlotPanels(){
 
 	       
 
-	        var handle1 = $( "#treeScaleSlider-handle" );
-	            $( "#treeScaleSlider" ).slider({
-	            	value:100,
+	        var handle1 = $( "#mPFontSizeSlider-handle" );
+	            $( "#mPFontSizeSlider" ).slider({
+	            	value:5,
 	            	min:1,
-	            	max:10000,
+	            	max:10,
 	              create: function() {
 	                	handle1.text( $( this ).slider( "value" ) );
 	              },
 	              slide: function( event, ui ) {
 		                handle1.text( ui.value );
-		                scaleFac = ui.value;
-		              //  updateTreeLink()
+		                mpFontSize = ui.value;
+		                updateMainPlot()
 						//$(".node").css("stroke-width",strokeWidthPack)
 		              //  console.log(x_axis? x_axis.style("font-size"))
 			        	//x_axis.style("font-size", function(d){return barChartFont})
