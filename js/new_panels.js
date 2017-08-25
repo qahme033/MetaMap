@@ -198,10 +198,11 @@ function makeBarChartPanels(){
 function makeTreeChartPanels(rdata){
 	console.log("YOO")
 	var treeScaleSliderHTML ='<label>FONT size</label><div id="treeScaleSlider"><div id="treeScaleSlider-handle" class="ui-slider-handle"></div></div>'
-	var treeScaleOption1 = '<div class="radio"><label><input type="radio" id="linearOption" name="optradio">Linear</label></div>'
-	var treeScaleOption2 = '<div class="radio"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
-	var treeScaleOption3 = '<div class="radio"><label><input type="radio" id="sqrtOption" name="optradio">Sqrt</label></div><input id="treePowerScale" value="0.5"></input>'
+	var treeScaleOption1 = '<div class="radio treeScaleOption"><label><input type="radio" id="linearOption" name="optradio">Linear</label></div>'
+	var treeScaleOption2 = '<div class="radio treeScaleOption"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
+	var treeScaleOption3 = '<div class="radio treeScaleOption"><label><input type="radio" id="sqrtOption" name="optradio">Sqrt</label></div><input id="treePowerScale" value="0.5"></input>'
 	var treeScaleOptions = treeScaleOption1 + treeScaleOption2 + treeScaleOption3;
+	//var treeTextFilterOption1 = '<div class="radio"><label><input type="radio" id="linearOption" name="optradio">Linear</label></div>'
 
 
 
@@ -247,7 +248,7 @@ function makeTreeChartPanels(rdata){
 
             })
 
-	        $(".radio").on("change", function(e){
+	        $(".treeScaleOption").on("change", function(e){
 	        	console.log(e)
 
 	        	treeScaleType = e.target.id
