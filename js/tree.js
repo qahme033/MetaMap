@@ -76,7 +76,7 @@ fooTree= tree
 		.style("text-anchor", function(d) { return d.parent ? "start" : "end"; })
 		.style("font", "10px sans-serif")
 		.attr("transform", function(d){return d.parent ? "rotate(-30)" : "rotate(0)"; })
-		.text(function(d) { return d.id.substring(d.id.lastIndexOf("@") + 1); });
+		.text(function(d) {console.log(d); return d.id.substring(d.id.lastIndexOf("@") + 1); });
 
 	svg.call(d3.zoom()
 //	.scaleExtent([0, 10])
