@@ -202,8 +202,10 @@ function makeTreeChartPanels(rdata){
 	var treeScaleOption2 = '<div class="radio treeScaleOption"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
 	var treeScaleOption3 = '<div class="radio treeScaleOption"><label><input type="radio" id="sqrtOption" name="optradio">Sqrt</label></div><input id="treePowerScale" value="0.5"></input>'
 	var treeScaleOptions = treeScaleOption1 + treeScaleOption2 + treeScaleOption3;
-	//var treeTextFilterOption1 = '<div class="radio"><label><input type="radio" id="linearOption" name="optradio">Linear</label></div>'
-
+	var treeTextFilterOption1 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="depthTextFilter" name="tfradio">Based on Depth</label></div><input id="treeDepthFilter" value="100"></input>'
+	var treeTextFilterOption2 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="siblingsTextFilter" name="tfradio">Based on # of siblings</label></div><input id="treeSiblingsFilter" value="100"></input>'
+	var treeTextFilterOption3 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="intensityTextFilter" name="tfradio">Based on Depth</label></div><input id="treeIntensityFilter" value="50"></input>'
+	var treeTextFilterOptions = treeTextFilterOption1 + treeTextFilterOption2 + treeTextFilterOption3
 
 
 
@@ -212,7 +214,7 @@ function makeTreeChartPanels(rdata){
 	  //  theme:       "rebeccapurple",
 	    contentSize: {width: 300, height: 350},
 	    headerTitle: "Tree Settings",
-	    content:     treeScaleSliderHTML + treeScaleOptions,
+	    content:     treeScaleSliderHTML + treeScaleOptions + treeTextFilterOptions,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
 
