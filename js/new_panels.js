@@ -258,6 +258,11 @@ function makeTreeChartPanels(rdata){
 
 	        })
 
+	        $(".treeTextFilterOption").on("change", function(e){
+	        	treeTextFilterType = e.target.id
+	        	updateTreeLink()
+	        })
+
 	    
 	    }
 	});

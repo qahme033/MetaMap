@@ -1,5 +1,6 @@
 var scaleFac = 1;
 var treeScaleType = "linearOption"
+var treeTextFilterType = "depth"		
 var tPower = 0.5;
 /******************************draw tree***************************************/
 function tree(data, div){
@@ -238,6 +239,14 @@ console.log(treeScaleType)
 
 
 	var circles = svgTree.select("g").selectAll(".node").select("circle")
+	var text = svgTree.select("g").selectAll(".node").select("text")
+
+	text.text(function(d) { 
+		var texts = d.id.substring(d.id.lastIndexOf("@") + 1); 
+		return "blahhh"
+		//if(treeTextFilterType == "depth" )
+	})
+
 
 	circles.exit().remove()
 	circles
