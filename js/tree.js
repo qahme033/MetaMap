@@ -1,6 +1,9 @@
 var scaleFac = 1;
 var treeScaleType = "linearOption"
-var treeTextFilterType = "depth"		
+var treeTextFilterType = "depth"	
+var ttdepth = 100;
+var ttchilds = 100;
+var ttradius = 100;	
 var tPower = 0.5;
 /******************************draw tree***************************************/
 function tree(data, div){
@@ -243,8 +246,12 @@ console.log(treeScaleType)
 
 	text.text(function(d) { 
 		var texts = d.id.substring(d.id.lastIndexOf("@") + 1); 
-		return "blahhh"
-		//if(treeTextFilterType == "depth" )
+		if(treeTextFilterType == "depthTextFilter" && d.depth < ttdepth)
+			return texts
+		if(treeTextFilterType == "siblingsTextFilter" && d.parent.children.length < ttchilds)
+			return texts
+		if(treeTextFilterType == "intensityTextFilter" && d.data.value < ttradius)
+			return texts
 	})
 
 

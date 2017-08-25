@@ -259,11 +259,14 @@ function makeTreeChartPanels(rdata){
 	        })
 
 	        $(".treeTextFilterOption").on("change", function(e){
+	        	console.log(e)
 	        	treeTextFilterType = e.target.id
-	        	updateTreeLink()
+	        	updateTreeLink()	
 	        })
+	        $("#depthTextFilter").on("change", function(e){console.log(e); ttdepth = e.target.value; updateTreeLink()})
+	    	$("#siblingsTextFilter").on("change", function(e){console.log(e); ttchilds = e.target.value; updateTreeLink()})
+	        $("#intensityTextFilter").on("change", function(e){console.log(e); ttradius	 = e.target.value; updateTreeLink()})
 
-	    
 	    }
 	});
 
