@@ -202,9 +202,9 @@ function makeTreeChartPanels(rdata){
 	var treeScaleOption2 = '<div class="radio treeScaleOption"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
 	var treeScaleOption3 = '<div class="radio treeScaleOption"><label><input type="radio" id="sqrtOption" name="optradio">Sqrt</label></div><input id="treePowerScale" value="0.5"></input>'
 	var treeScaleOptions = treeScaleOption1 + treeScaleOption2 + treeScaleOption3;
-	var treeTextFilterOption1 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="depthTextFilter" name="tfradio">Based on Depth</label></div><input id="treeDepthFilter" value="100"></input>'
-	var treeTextFilterOption2 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="siblingsTextFilter" name="tfradio">Based on # of siblings</label></div><input id="treeSiblingsFilter" value="100"></input>'
-	var treeTextFilterOption3 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="intensityTextFilter" name="tfradio">Based on Depth</label></div><input id="treeIntensityFilter" value="50"></input>'
+	var treeTextFilterOption1 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="depthTextFilter" name="tfradio">Based on Depth</label></div><input id="treeDepthFilterInput" value="100"></input>'
+	var treeTextFilterOption2 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="siblingsTextFilter" name="tfradio">Based on # of siblings</label></div><input id="treeSiblingsFilterInput" value="100"></input>'
+	var treeTextFilterOption3 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="intensityTextFilter" name="tfradio">Based on Depth</label></div><input id="treeIntensityFilterInput" value="50"></input>'
 	var treeTextFilterOptions = treeTextFilterOption1 + treeTextFilterOption2 + treeTextFilterOption3
 
 
@@ -263,9 +263,9 @@ function makeTreeChartPanels(rdata){
 	        	treeTextFilterType = e.target.id
 	        	updateTreeLink()	
 	        })
-	        $("#depthTextFilter").on("change", function(e){console.log(e); ttdepth = e.target.value; updateTreeLink()})
-	    	$("#siblingsTextFilter").on("change", function(e){console.log(e); ttchilds = e.target.value; updateTreeLink()})
-	        $("#intensityTextFilter").on("change", function(e){console.log(e); ttradius	 = e.target.value; updateTreeLink()})
+	        $("#treeDepthFilterInput").on("change", function(e){console.log(e); ttdepth = e.target.value; updateTreeLink()})
+	    	$("#treeSiblingsFilterInput").on("change", function(e){console.log(e); ttchilds = e.target.value; updateTreeLink()})
+	        $("#treeIntensityFilterInput").on("change", function(e){console.log(e); ttradius	 = e.target.value; updateTreeLink()})
 
 	    }
 	});
