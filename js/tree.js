@@ -246,8 +246,12 @@ console.log(treeScaleType)
 
 	text.text(function(d) { 
 		var texts = d.id.substring(d.id.lastIndexOf("@") + 1); 
-		if(treeTextFilterType == "depthTextFilter" && d.depth < ttdepth)
+		console.log(treeTextFilterType)
+		console.log(ttdepth)
+		if(treeTextFilterType == "depthTextFilter" && d.depth < ttdepth){
+			console.log("made it")
 			return texts
+		}
 		if(treeTextFilterType == "siblingsTextFilter" && d.parent.children.length < ttchilds)
 			return texts
 		if(treeTextFilterType == "intensityTextFilter" && d.data.value < ttradius)
