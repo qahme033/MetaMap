@@ -252,9 +252,11 @@ console.log(treeScaleType)
 			console.log("made it")
 			return texts
 		}
-		if(treeTextFilterType == "siblingsTextFilter" && d.parent.children.length < ttchilds)
-			return texts
-		if(treeTextFilterType == "intensityTextFilter" && d.data.value < ttradius)
+		else if(d.parent){
+			if(treeTextFilterType == "siblingsTextFilter" && d.parent.children.length < ttchilds)
+				return texts
+		}
+		else if(treeTextFilterType == "intensityTextFilter" && d.data.value < ttradius)
 			return texts
 	})
 
