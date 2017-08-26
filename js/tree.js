@@ -259,7 +259,7 @@ console.log(treeScaleType)
 				return texts
 			}
 		}
-		else if(treeTextFilterType == "intensityTextFilter" && rScale(d.data.value)	< ttradius){
+		else if(treeTextFilterType == "intensityTextFilter" && rScale(d.data.value)	> ttradius){
 			console.log(d, rScale(d.data.value)	)
 			console.log(ttradius)
 			return texts
