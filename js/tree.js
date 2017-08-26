@@ -243,11 +243,11 @@ console.log(treeScaleType)
 
 	var circles = svgTree.select("g").selectAll(".node").select("circle")
 	var text = svgTree.select("g").selectAll(".node").select("text")
-
-	text.text(function(d) { 
-		var texts = d.id.substring(d.id.lastIndexOf("@") + 1); 
 		console.log(treeTextFilterType)
 		console.log(ttdepth)
+	text.text(function(d) { 
+		var texts = d.id.substring(d.id.lastIndexOf("@") + 1); 
+
 		if(treeTextFilterType == "depthTextFilter" && d.depth < ttdepth){
 			console.log("made it")
 			return texts
