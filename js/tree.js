@@ -252,10 +252,10 @@ console.log(treeScaleType)
 			console.log("made it")
 			return texts
 		}
-		else if(d.parent){
+		else if(d.parent && treeTextFilterType == "siblingsTextFilter"){
 			console.log(d, d.parent.children.length)
 
-			if(treeTextFilterType == "siblingsTextFilter" && d.parent.children.length < ttchilds){
+			if(d.parent.children.length < ttchilds){
 				return texts
 			}
 		}
