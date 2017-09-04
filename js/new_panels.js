@@ -217,14 +217,11 @@ function makeTreeChartPanels(rdata){
 	    content:     treeScaleSliderHTML + treeScaleOptions + treeTextFilterOptions,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
-
-	       
-
 	        var handle1 = $( "#treeScaleSlider-handle" );
 	            $( "#treeScaleSlider" ).slider({
-	            	value:100,
+	            	value:1,
 	            	min:1,
-	            	max:10000,
+	            	max:100,
 	              create: function() {
 	                	handle1.text( $( this ).slider( "value" ) );
 	              },
@@ -232,9 +229,6 @@ function makeTreeChartPanels(rdata){
 		                handle1.text( ui.value );
 		                scaleFac = ui.value;
 		                updateTreeLink()
-						//$(".node").css("stroke-width",strokeWidthPack)
-		                //console.log(x_axis? x_axis.style("font-size"))
-			        	//x_axis.style("font-size", function(d){return barChartFont})
 	            	}
 	            });
 
@@ -244,10 +238,6 @@ function makeTreeChartPanels(rdata){
             	tPower = e.target.value
             	 if(treeScaleType == "sqrtOption")
             	 	updateTreeLink()
-
-
-            	//updateMainPlot()
-
             })
 
 	        $(".treeScaleOption").on("change", function(e){

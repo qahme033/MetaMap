@@ -203,65 +203,40 @@ var min = getMinTreeR(data)
 treeLink.exit().remove();
 
 	var rScale;
-console.log(treeScaleType)
 	if(treeScaleType == "linearOption"){
-		rScale = d3.scaleLinear().domain([min, max]).range([0, 50]);
-		//	console.log(rScale(10))
+		rScale = d3.scaleLinear().domain([min, max]).range([0, scaleFac]);
 
 	}
 	else if(treeScaleType == "logOption"){
-		rScale = d3.scaleLog().domain([min + 1, max]).range([0, 50]);
-		// console.log(getMinTreeR(rdata))
-		// console.log(getMaxTreeR(rdata))
-		//	console.log(rScale(10))
-
+		rScale = d3.scaleLog().domain([min + 1, max]).range([0, scaleFac]);
 	}
 	else if(treeScaleType == "sqrtOption"){
-	//	console.log(mpPower)
-		rScale = d3.scalePow().exponent(tPower).domain([min, max]).range([0, 50]);
-	//console.log(rScale(10))
+		rScale = d3.scalePow().exponent(tPower).domain([min, max]).range([0, scaleFac]);
 	}
-//	console.log(rScale(10))
 
 	treeLink			
 		.style("stroke-width",  function(d){
-			// if(scaleType == "linearOption") 
-			// 	return scaleFac * d.data.value/maxD 
-			// else if(scaleType == "logOption")
-			// 	return scaleFac * Math.log(d.data.value + 1)/Math.log(maxD + 1)
-			// else if(scaleType == "sqrtOption")
-			// 	return scaleFac * Math.sqrt(d.data.value)/Math.sqrt(maxD)	
-		//	console.log(d.data.value)
 		if(d.id.endsWith("cellular organisms@Bacteria")){
 			console.log(d)
 			console.log(rScale(d.data.value))
 		}
-		//console.log(d)
 			return rScale(d.data.value)	
 		})
 
 
 	var circles = svgTree.select("g").selectAll(".node").select("circle")
 	var text = svgTree.select("g").selectAll(".node").select("text")
-		console.log(treeTextFilterType)
-		console.log(ttdepth)
 	text.text(function(d) { 
 		var texts = d.id.substring(d.id.lastIndexOf("@") + 1); 
-
 		if(treeTextFilterType == "depthTextFilter" && d.depth < ttdepth){
-			console.log("made it")
 			return texts
 		}
 		else if(d.parent && treeTextFilterType == "siblingsTextFilter"){
-			console.log(d, d.parent.children.length)
-
 			if(d.parent.children.length < ttchilds){
 				return texts
 			}
 		}
 		else if(treeTextFilterType == "intensityTextFilter" && rScale(d.data.value)	> ttradius){
-			console.log(d, rScale(d.data.value)	)
-			console.log(ttradius)
 			return texts
 		}
 	})
@@ -269,21 +244,7 @@ console.log(treeScaleType)
 
 	circles.exit().remove()
 	circles
-
-		.attr("r",  function(d){
-			// if(scaleType == "linearOption") 
-			// 	return scaleFac * d.data.value/maxD 
-			// else if(scaleType == "logOption")
-			// 	return scaleFac * Math.log(d.data.value + 1)/Math.log(maxD + 1)
-			// else if(scaleType == "sqrtOption")
-			// 	return scaleFac * Math.sqrt(d.data.value)/Math.sqrt(maxD)
-			//console.log("**********", rScale(100))
-		if(d.id.endsWith("cellular organisms@Bacteria")){
-			console.log(d)
-			console.log(rScale(d.data.value))
-		}
-			return rScale(d.data.value)	
-		})
+		.attr("r",  function(d){return rScale(d.data.value)	})
 
 }
 
