@@ -1,9 +1,9 @@
-var scaleFac = 1;
+var scaleFac = 50;
 var treeScaleType = "linearOption"
-var treeTextFilterType = "depth"	
-var ttdepth = 100;
+var treeTextFilterType = "depthTextFilter"	
+var ttdepth = 7;
 var ttchilds = 100;
-var ttradius = 100;	
+var ttradius = 10;	
 var tPower = 0.5;
 /******************************draw tree***************************************/
 function tree(data, div){
@@ -27,12 +27,15 @@ svgTree = svg;
 
 	var tree = d3.tree()
 	    .size([height -200, width - 300]);
-fooTree= tree
+
+	fooTree= tree
 	var stratify = d3.stratify()
 	    .parentId(function(d) { return d.id.substring(0, d.id.lastIndexOf("@")); });
 	console.log(data)
+
 	var root = stratify(data)
 		.sort(function(a, b) { return (a.height - b.height) || a.id.localeCompare(b.id); });
+
 		fooroot = root
 
 	var maxi = getMax(data)
@@ -41,7 +44,7 @@ fooTree= tree
 
 	var max = getMaxTreeR(rdata)
 	var min = getMinTreeR(rdata)
-	var rScale = d3.scaleLinear().domain([min, max]).range([0, 50]);
+	var rScale = d3.scaleLinear().domain([min, max]).range([0, scaleFac]);
 
 	//console.log(tree(root).descendants().slice(1));
 	var link = ng.selectAll(".link")
@@ -115,8 +118,9 @@ function radialTree(data, div, svg){
 		.style("top", "0px")
 		.style("right", "0px")
 		.style("z-index", "-1")
-
-
+	svgTree = svg
+	treeScaleType = "logOption"
+	scaleFac = 1;
 
     var ng = svg.append("g").attr("transform", "translate(" + (width / 2 + 40) + "," + (height / 2) + ")");
 
@@ -126,11 +130,13 @@ function radialTree(data, div, svg){
 	var tree = d3.tree()
 	    .size([360, 500])
 	    .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
-
-	var root = tree(stratify(data));
-
+	   console.log(data)
+	var root = stratify(data)
+		.sort(function(a, b) { return (a.height - b.height) || a.id.localeCompare(b.id); });
+	fooroot = root
+	fooTree = tree
 	var link = ng.selectAll(".link")
-	.data(root.descendants().slice(1))
+	.data(tree(root).descendants().slice(1))
 	.enter().append("path")
 	  .attr("class", "link")
 	  .style("stroke", color)
@@ -151,9 +157,12 @@ function radialTree(data, div, svg){
 	  .attr("transform", function(d) { 	return "translate(" + project(d.x, d.y) + ")"; })
 
 
+	var max = getMaxTreeR(rdata)
+	var min = getMinTreeR(rdata)
+	var rScale = d3.scaleLinear().domain([min, max]).range([0, scaleFac]);
 
 	node.append("circle")
-	  .attr("r", function(d){return scaleFac * d.r})
+	  .attr("r", function(d){return rScale(d.data.value)})
 	  .style("fill", function(d){return color(d.depth >= 2 && d.id.split("@", 3));
 	      })
 
@@ -217,8 +226,6 @@ treeLink.exit().remove();
 	treeLink			
 		.style("stroke-width",  function(d){
 		if(d.id.endsWith("cellular organisms@Bacteria")){
-			console.log(d)
-			console.log(rScale(d.data.value))
 		}
 			return rScale(d.data.value)	
 		})
@@ -226,6 +233,7 @@ treeLink.exit().remove();
 
 	var circles = svgTree.select("g").selectAll(".node").select("circle")
 	var text = svgTree.select("g").selectAll(".node").select("text")
+	console.log(treeTextFilterType, ttdepth)
 	text.text(function(d) { 
 		var texts = d.id.substring(d.id.lastIndexOf("@") + 1); 
 		if(treeTextFilterType == "depthTextFilter" && d.depth < ttdepth){

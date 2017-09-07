@@ -9,10 +9,10 @@ function makePackPanels(){
 	var depthSliderHTML = '<label>Depth</label><div id="depthSlider"><div id="depthSlider-handle" class="ui-slider-handle"></div></div>'
 	var opacitySliderHTML = '<label>Opacity</label><div id="packOpacitySlider"><div id="packOpacitySlider-handle" class="ui-slider-handle"></div></div>'
 	var strokeSliderHTML = '<label>Stroke width</label><div id="strokeSlider"><div id="depthSlider-handle" class="ui-slider-handle"></div></div>'
-	var packScaleOption1 = '<div class="radio"><label><input type="radio" checked="true" id="linearOption" name="optradio">Linear</label></div>'
-	var packScaleOption2 = '<div class="radio"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
-	var packScaleOption3 = '<div class="radio"><label><input type="radio" id="sqrtOption" name="optradio">Power...  </label></div><input id="powerScale" value="0.5"></input>'
-	var packScaleOptions = packScaleOption1 + packScaleOption2 + packScaleOption3;
+	// var packScaleOption1 = '<div class="radio"><label><input type="radio" checked="true" id="linearOption" name="optradio">Linear</label></div>'
+	// var packScaleOption2 = '<div class="radio"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
+	// var packScaleOption3 = '<div class="radio"><label><input type="radio" id="sqrtOption" name="optradio">Power...  </label></div><input id="powerScale" value="0.5"></input>'
+	// var packScaleOptions = packScaleOption1 + packScaleOption2 + packScaleOption3;
 
 
 	packPanel =	$.jsPanel({
@@ -20,7 +20,7 @@ function makePackPanels(){
 	  //  theme:       "rebeccapurple",
 	    contentSize: {width: 300, height: 500},
 	    headerTitle: " Settings",
-	    content:     '<p id="bakColor">Backteria </p><p id="eukColor">Eukaryotes ...</p><p id="arcColor">Archaea ...</p>' + fontSliderHTML + paddingSliderHTML + depthSliderHTML + opacitySliderHTML +strokeSliderHTML +packScaleOptions,
+	    content:     '<p id="bakColor">Backteria </p><p id="eukColor">Eukaryotes ...</p><p id="arcColor">Archaea ...</p>' + fontSliderHTML + paddingSliderHTML + depthSliderHTML + opacitySliderHTML +strokeSliderHTML,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
 
@@ -71,7 +71,7 @@ function makePackPanels(){
 	            $( "#nodePadSlider" ).slider({
 	            	value:nodePadding,
 	            	min:1,
-	            	max:200,
+	            	max:100,
 	              create: function() {
 	             	   handle2.text( $( this ).slider( "value" ) );
 
@@ -79,9 +79,9 @@ function makePackPanels(){
 	              slide: function( event, ui ) {
 		                handle2.text( ui.value );
 		                nodePadding = ui.value;
-		               // packThis.padding(nodePadding/100);
+		                packThis.padding(nodePadding/100);
 
-		             //   getBackPack(rawData)	              
+		                getBackPack(rawData)	              
 	            	}
 	            });
 
@@ -202,24 +202,24 @@ function makeTreeChartPanels(rdata){
 	var treeScaleOption2 = '<div class="radio treeScaleOption"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
 	var treeScaleOption3 = '<div class="radio treeScaleOption"><label><input type="radio" id="sqrtOption" name="optradio">Sqrt</label></div><input id="treePowerScale" value="0.5"></input>'
 	var treeScaleOptions = treeScaleOption1 + treeScaleOption2 + treeScaleOption3;
-	var treeTextFilterOption1 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="depthTextFilter" name="tfradio">Based on Depth</label></div><input id="treeDepthFilterInput" value="100"></input>'
-	var treeTextFilterOption2 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="siblingsTextFilter" name="tfradio">Based on # of siblings</label></div><input id="treeSiblingsFilterInput" value="100"></input>'
-	var treeTextFilterOption3 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="intensityTextFilter" name="tfradio">Based on Depth</label></div><input id="treeIntensityFilterInput" value="50"></input>'
-	var treeTextFilterOptions = treeTextFilterOption1 + treeTextFilterOption2 + treeTextFilterOption3
+	var treeTextFilterOption1 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="depthTextFilter" name="tfradio">Based on Depth</label></div><input id="treeDepthFilterInput" value="10"></input>'
+	//var treeTextFilterOption2 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="siblingsTextFilter" name="tfradio">Based on # of siblings</label></div><input id="treeSiblingsFilterInput" value="100"></input>'
+	var treeTextFilterOption3 = '<div class="radio treeTextFilterOption"><label><input type="radio" id="intensityTextFilter" name="tfradio">Based on circle radius</label></div><input id="treeIntensityFilterInput" value="10"></input>'
+	var treeTextFilterOptions = treeTextFilterOption1  + treeTextFilterOption3
 
 
 
 	treeChartPanel = $.jsPanel({
 	    position:    {my: "right-top", at: "right-top", offsetY: 400},
 	  //  theme:       "rebeccapurple",
-	    contentSize: {width: 300, height: 350},
+	    contentSize: {width: 300, height: 400},
 	    headerTitle: "Tree Settings",
 	    content:     treeScaleSliderHTML + treeScaleOptions + treeTextFilterOptions,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
 	        var handle1 = $( "#treeScaleSlider-handle" );
 	            $( "#treeScaleSlider" ).slider({
-	            	value:1,
+	            	value:scaleFac,
 	            	min:1,
 	            	max:100,
 	              create: function() {

@@ -129,6 +129,8 @@ function makeTree(data, d, type){
 	if(type == "rTreeButton"){
 		rdata = reduceRoot(data, d)
 		radialTree(rdata, $('#svgField')[0])
+		makeTreeChartPanels(rdata)
+
 	}
 	if(type == "rPie"){
 		rdata = reduceRoot(data, d)
@@ -225,7 +227,7 @@ function getBackPack(rawData){
 
 	pack(rawData, $("#svgField")[0], JSON.parse(localStorage.getItem("packData")), true)
 	closePanels();
-	//makePackPanels()
+	makePackPanels()
 }
 
 function getBackMain(){
