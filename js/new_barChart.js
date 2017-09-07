@@ -1,9 +1,12 @@
 var barChartFont = 1;
+var barScaleType = "linearOption"
+var bPower = 0.5;
+var y
 function barChart(d, div, data){
 	console.log("NEW BAR CHART")
 	width = window.innerWidth;
 	height =  window.innerHeight;
-
+	console.log(height)
 	var svg = d3.select(div).append("svg")
 		.attr("width", width)
 		.attr("height", height)
@@ -16,21 +19,26 @@ function barChart(d, div, data){
 		.style("z-index", "-1")
 		.call(d3.zoom().on("zoom", zoomBar));      // ref [1]
 
-
+		svgBar = svg
 	
-		var margin = {top: 400, right: 20, bottom: 100, left: 100},
-		width = window.innerWidth - margin.left - margin.right,
-		height = window.innerHeight - margin.top - margin.bottom,
-
+		var margin = {top: 50, right: 20, bottom: 100, left: 100};
+		width = window.innerWidth - margin.left - margin.right
+		height = window.innerHeight - margin.top - margin.bottom
     g = svg.insert("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		console.log(height)
 
 			var x = d3.scaleBand()
 			    .rangeRound([0, width])
 			    .paddingInner(0.05)
 			    .align(0.1);
-
-			var y = d3.scaleLog()
-			    .range([height, 0]);
+			   
+			if(barScaleType == "linearOption")
+				y = d3.scaleLinear()
+			else if(barScaleType == "logOption")
+				y = d3.scaleLog();
+			else if(barScaleType == "sqrtOption")
+				y = d3.scalePow().exponent(tPower)
+			y.range([height, 0]);
 
 			var z = d3.scaleOrdinal()
 			    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
@@ -50,7 +58,7 @@ function barChart(d, div, data){
 			  y.domain([1, d3.max(data, function(d) {return parseFloat(d.value); })]).nice();
 			  z.domain(keys);
 
-			var bars =  g.append("g")
+			bars =  g.append("g")
 			    .selectAll("g")
 			    .data(d3.stack().keys(keys)(data))
 			    .enter().append("g")
@@ -60,11 +68,11 @@ function barChart(d, div, data){
 			    .enter().append("rect")
 			      .attr("x", function(d) {return x(d.data[category].substring( d.data[category].lastIndexOf("@")+1 )); })
 			      .attr("y", function(d) { return y(d[1]) ; })
-			      .attr("height", function(d) {return y(d[0]+1)- y(d[1]) ; })
+			      .attr("height", function(d) {console.log(y(d[0]+1)- y(d[1]));return y(d[0]+1)- y(d[1]) ; })
 			      .attr("width", x.bandwidth())
 			      .attr("class", function(){return "foo"})
 			      .attr("id", function(d){return  d.data[category].substring( d.data[category].lastIndexOf("@")+1 )})
-
+			      console.log(barScaleType, height)
 			setTimeout(function(){  
 
 				$(".foo").on("mouseover", function(e){
@@ -104,9 +112,9 @@ function barChart(d, div, data){
 			     // .attr("font-size", 0.5)
 			      .call(d3.axisBottom(x))
 
-			  var yAxis =d3.axisLeft(y);
+			  yAxis =d3.axisLeft(y);
 
-			  var axis = g.append("g")
+			  axis = g.append("g")
 			      .attr("class", "axis")
 			   //   .attr("transform", "translate(0," + height + ")")
 			      .call(yAxis)
@@ -165,5 +173,24 @@ function barChart(d, div, data){
 			      }
 		// //	});
 	}
+
+function updateBarChart(){
+	if(barScaleType == "linearOption")
+		y = d3.scaleLinear()
+	else if(barScaleType == "logOption")
+		y = d3.scaleLog();
+	else if(barScaleType == "sqrtOption")
+		y = d3.scalePow().exponent(tPower)
+	y.range([height, 0]);
+	y.domain([1, d3.max(data, function(d) {return parseFloat(d.value); })]).nice();
+	yAxis =d3.axisLeft(y);
+	var g = svgBar.select("g").selectAll("g")
+	axis.call(yAxis)
+
+	bars.attr("y", function(d) { return y(d[1]) ; })
+		.attr("height", function(d) { console.log(y(d[0]+1)- y(d[1])); return y(d[0]+1)- y(d[1]) ; })
+			console.log(barScaleType, height)
+
+}
 
 

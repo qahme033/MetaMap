@@ -154,7 +154,10 @@ function makePackPanels(){
 function makeBarChartPanels(){
 	console.log("YOO")
 	var fontSliderHTML ='<label>FONT size</label><div id="packFontSlider"><div id="packFontSlider-handle" class="ui-slider-handle"></div></div>'
-
+	var barScaleOption1 = '<div class="radio barScaleOption"><label><input type="radio" id="linearOption" name="optradio">Linear</label></div>'
+	var barScaleOption2 = '<div class="radio barScaleOption"><label><input type="radio" id="logOption" name="optradio">Log</label></div>'
+	var barScaleOption3 = '<div class="radio barScaleOption"><label><input type="radio" id="sqrtOption" name="optradio">Sqrt</label></div><input id="barPowerScale" value="0.5"></input>'
+	var barScaleOptions = barScaleOption1 + barScaleOption2 + barScaleOption3;
 
 
 	barChartPanel = $.jsPanel({
@@ -162,7 +165,7 @@ function makeBarChartPanels(){
 	  //  theme:       "rebeccapurple",
 	    contentSize: {width: 300, height: 350},
 	    headerTitle: "Bar Chart Settings",
-	    content:     fontSliderHTML ,
+	    content:     fontSliderHTML +barScaleOptions,
 	    callback:    function () {
 	        this.content.css("padding", "15px");
 
@@ -187,6 +190,21 @@ function makeBarChartPanels(){
 	    
 	    }
 	});
+    $("#barPowerScale").on("change", function(e){
+    	console.log("POWER")
+
+    	bPower = e.target.value
+    	 if(treeScaleType == "sqrtOption")
+    	 	updateTreeLink()
+    })
+
+    $(".barScaleOption").on("change", function(e){
+    	console.log(e)
+
+    	barScaleType = e.target.id
+    	updateBarChart()
+
+    })
 
 	thirdLevelPanel = barChartPanel
 
