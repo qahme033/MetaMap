@@ -180,7 +180,7 @@ function handlePackListener(e,d, data){
 	// if(type == "rTreeButton"){
 	// 	makeTree(data, d, type)
 	// }
-	if(type == "donutChart"){
+	else if(type == "donutChart"){
 		makeBarChart(d, $("#svgField")[0], "donutChart")
 	}
 	else{

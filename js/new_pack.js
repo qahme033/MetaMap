@@ -402,7 +402,7 @@ function reduceRoot2(data,d){
 			//tmp.id = tmp.id.substr(tmp.id.indexOf(rootPieces[rootPieces.length-1]))
 
 			//console.log(tmp.id.substring(19), rootPieces[rootPieces.length-1])
-			console.log(tmp.value, tmp)
+			//console.log(tmp.value, tmp)
 			if(tmp.value > 0)
 				data2.push(modified)
 		}

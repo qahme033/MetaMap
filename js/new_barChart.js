@@ -1,5 +1,6 @@
 var barChartFont = 1;
 function barChart(d, div, data){
+	console.log("NEW BAR CHART")
 	width = window.innerWidth;
 	height =  window.innerHeight;
 
@@ -142,7 +143,7 @@ function barChart(d, div, data){
 
 
 			      function zoomBar(){
-
+			      	console.log("zoom")
 			      	axis.transition()
 			      	      .duration(50)
 			      	      .call(yAxis.scale(d3.event.transform.rescaleY(y)));
