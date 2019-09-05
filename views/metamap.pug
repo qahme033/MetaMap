@@ -1,0 +1,70 @@
+doctype html
+head
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.9.3/jquery.jspanel.css')
+  link(rel='stylesheet' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' type='text/css')
+  link(rel='stylesheet' href='css/donut.css')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+  script(src='https://d3js.org/d3.v4.min.js')
+  script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.9.3/jquery.jspanel-compiled.js')
+  script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+  script(src='js/tooltip.js')
+  script(src='js/new_readfiles.js')
+  script(src='js/new_main.js')
+  script(src='js/new_pack.js')
+  script(src='js/donutChart.js')
+  script(src='js/new_panels.js')
+  script(src='js/new_barChart.js')
+  script(src='js/new_scatter_plot.js')
+  script(src='js/tree.js')
+  script(src='js/pie.js')
+  script(src='js/jscolor.js')
+  script(src='js/pca.js')
+  script(src='js/numeric-1.2.6.js')
+  style(type='text/css').
+    .node--hover circle {
+    stroke: #000;
+    stroke-width:5px;
+    }
+    /*		.node--click circle {
+    stroke: #000;
+    stroke-width:5px;
+    }*/
+    div.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 28px;
+    }
+    #packFontSlider-handle {
+    width: 3em;
+    height: 1.6em;
+    top: 50%;
+    margin-top: -.8em;
+    text-align: center;
+    line-height: 1.6em;
+    }
+  title &#x9;
+.container
+  .row.row-centered
+    .col-lg.col-lg-offset-4
+      #inputRow.row
+        // <button type="button" class="btn btn-primary btn-lg" id="uploadBtn"><span class="glyphicon glyphicon-upload"></span> Upload sample cv's</button>
+        label.control-label Upload samples
+        input#input-files(type='file' name='')
+      #output-field.row(style=' z-index: -2')
+      #pie-chart-extension-navbar
+      #svgField.row
+      #tooltip.tooltip
+#myModal.modal.fade(role='dialog')
+  #modalSize.modal-dialog.modal-lg
+    // Modal content
+    .modal-content
+      .modal-header
+        button.close(type='button' data-dismiss='modal') &times;
+        h4.modal-title Modal Header
+      #modalBody.modal-body
+        p Some text in the modal.
+      .modal-footer
+        button.btn.btn-default(type='button' data-dismiss='modal') Close
