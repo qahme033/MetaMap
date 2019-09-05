@@ -8,11 +8,11 @@ $(document).ready(function(){
 	var input = document.getElementById("input-files");
 	// var packInputField = document.getElementById("pack-map-upload-field");
 	var output = document.getElementById("output-field");
-
+	autoFileHandler(output)
 	//register eventlisteners
-	input.addEventListener("change", function(e){
-		fileSelectHandler(e,output);
-	}, false);
+	// input.addEventListener("change", function(e){
+	// 	fileSelectHandler(e,output);
+	// }, false);
 });
 
 // $( window ).on("unload",function() {
@@ -26,6 +26,13 @@ $(document).ready(function(){
 // }, false);
 
 /******************************File reader functions*************************/
+function autoFileHandler(output){
+	file = data;
+	//console.log(file.name);
+	progressHandler(file);
+	fileInputHandler(file, output);
+}
+
 function fileSelectHandler(e, output){
 	file = e.target.files[0];
 	//console.log(file.name);

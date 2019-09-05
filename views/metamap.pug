@@ -10,6 +10,7 @@ head
   script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.9.3/jquery.jspanel-compiled.js')
   script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
   script(src='js/tooltip.js')
+  script(type='text/javascript').const data =!{JSON.stringify(data)}; 
   script(src='js/new_readfiles.js')
   script(src='js/new_main.js')
   script(src='js/new_pack.js')
@@ -51,7 +52,7 @@ head
     .col-lg.col-lg-offset-4
       #inputRow.row
         // <button type="button" class="btn btn-primary btn-lg" id="uploadBtn"><span class="glyphicon glyphicon-upload"></span> Upload sample cv's</button>
-        label.control-label Upload samples
+        label.control-label Upload samples 
         input#input-files(type='file' name='')
       #output-field.row(style=' z-index: -2')
       #pie-chart-extension-navbar
